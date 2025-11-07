@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="da">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tekstlab – Eventyr og viser</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=IM+Fell+English:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+<style>
+        :root {
+        --card: #fff;
+        --border: #e5e7eb;
+        --bg: #f7fafc;
+        --fg: #0f172a;
+        --muted: #64748b;
+        --accent: #0f172a;
+      }
+      html,
+      body {
+        margin: 0;
+        background: linear-gradient(135deg, #eef2ff, #ffffff 50%, #ecfeff);
+        color: var(--fg);
+        font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: 24px auto;
+        padding: 0 16px;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 24px;
+      }
+      h3 {
+        margin: 0 0 8px;
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        gap: 14px;
+      }
+      @media (min-width: 980px) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04);
+      }
+      .pad {
+        padding: 16px;
+      }
+      textarea,
+      input,
+      select,
+      button {
+        font: inherit;
+      }
+      textarea {
+        width: 100%;
+        min-height: 210px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        background: #fff;
+      }
+      input,
+      select {
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 8px;
+        background: #fff;
+      }
+      .bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+      button {
+        cursor: pointer;
+        border: 0;
+        border-radius: 10px;
+        background: var(--accent);
+        color: #fff;
+        padding: 8px 12px;
+      }
+      button.secondary {
+        background: #fff;
+        color: var(--fg);
+        border: 1px solid var(--border);
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", monospace;
+      }
+      .template {
+        white-space: pre-wrap;
+        border: 1px dashed var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        background: #f8fafc;
+      }
+      .out {
+        min-height: 120px;
+      }
+      .pill {
+        display: inline-block;
+        padding: 2px 6px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: #fff;
+        font-size: 12px;
+        margin: 2px;
+      }
+      .hl {
+        padding: 0 3px;
+        border-radius: 6px;
+        text-decoration: underline;
+        text-decoration-style: dotted;
+      }
+      .hl.PLOT {
+        background: #e0f2fe;
+      }
+      .hl.SIGNAL {
+        background: #fde68a;
+      }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        border: 1px solid var(--border);
+        background: #fff;
+      }
+      .pillchip {
+        font-size: 12px;
+        padding: 2px 6px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: #fff;
+      }
+      .list {
+        max-height: 200px;
+        overflow: auto;
+      }
+      .ann-item {
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        border-top: 1px dashed var(--border);
+        padding-top: 8px;
+        margin-top: 8px;
+      }
+      .flow {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px;
+        overflow: auto;
+      }
+      /* “Gammel bogside” til tekstfeltet */
+      #textInput {
+        font-family: "IM Fell English", "EB Garamond", Georgia,
+          "Times New Roman", serif;
+        font-size: 18px;
+        line-height: 1.6;
+        color: #2b2a27;
+
+        /* Parchment-lignende baggrund uden billeder */
+        background: radial-gradient(
+            120% 100% at 0% 0%,
+            rgba(255, 255, 255, 0.7) 0%,
+            rgba(255, 255, 255, 0) 60%
+          ),
+          radial-gradient(
+            120% 100% at 100% 100%,
+            rgba(0, 0, 0, 0.06) 0%,
+            rgba(0, 0, 0, 0) 60%
+          ),
+          linear-gradient(to bottom, #f7f1e3, #f3ead7);
+        border: 1px solid #d6ccb3;
+        border-radius: 12px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6),
+          inset 0 40px 60px rgba(255, 255, 255, 0.35),
+          0 1px 0 rgba(0, 0, 0, 0.03);
+        padding: 22px 18px;
+
+        /* Små typografiske detaljer */
+        caret-color: #7a5c30;
+        letter-spacing: 0.01em;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+
+        /* Gør afsnit pænere at skrive */
+        hyphens: auto;
+        white-space: pre-wrap; /* bevar linjeskift */
+        overflow-wrap: anywhere; /* undgå horizontalt scroll */
+      }
+
+      /* Placeholder i antikt look */
+      #textInput::placeholder {
+        color: #9a8f7a;
+        font-style: italic;
+      }
+
+      /* Fokusramme i varm tone */
+      #textInput:focus {
+        outline: 2px solid #d9c7a1;
+        outline-offset: 2px;
+      }
+</style>
+    <!--<link rel="stylesheet" href="include/layout.css">-->
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Tekstlab – Eventyr og viser</h1>
+        <!--
+        <div class="small">
+          Marker <b>plottilstande</b> vs. <b>form-signaler</b> (omkvæd/burden),
+          byg automatisk et Mermaid-plotdiagram, og eksporter Markov-tabel +
+          skabelon.
+        </div>
+        -->
+      </header>
+
+      <section class="grid" style="margin-top: 14px">
+        <div class="card pad">
+          <h3>Tekst & Mærkning</h3>
+          <div class="bar" style="margin-bottom: 8px">
+            <select id="kindSel" title="Type mærkning">
+              <option value="PLOT">Plottilstand</option>
+              <option value="SIGNAL">Form-signal</option>
+            </select>
+            <select id="labelSel" title="Vælg label"></select>
+            <button id="btnTag">Mærk markering</button>
+            <button id="btnClearSel" class="secondary">Ryd markering</button>
+            <button id="btnExport" class="secondary">Eksportér JSON</button>
+            <label
+              class="secondary"
+              style="
+                padding: 8px 12px;
+                border-radius: 10px;
+                border: 1px solid var(--border);
+                background: #fff;
+                cursor: pointer;
+              "
+              >Importér JSON
+              <input
+                id="fileImport"
+                type="file"
+                accept="application/json"
+                style="display: none"
+              />
+            </label>
+          </div>
+          <textarea
+            id="textInput"
+            placeholder="Indsæt eller skriv en folkevise/folketekst her. Markér en passage, vælg type + label, og klik ‘Mærk markering’."
+          ></textarea>
+          <div style="margin-top: 10px" class="card pad">
+            <h4 style="margin: 0 0 6px">Forhåndsvisning</h4>
+            <div id="preview" class="mono" style="white-space: pre-wrap"></div>
+          </div>
+          <div style="margin-top: 10px" class="card pad">
+            <h4 style="margin: 0 0 6px">Mærkninger</h4>
+            <div id="annList" class="list small"></div>
+          </div>
+        </div>
+
+        <div class="card pad">
+          <h3>Mermaid-diagram (Plot-FSM)</h3>
+          <div class="small">
+            Faste pile = plotovergange; prikkede selv-løkker = omkvæd/burden.
+            Kantlabels viser sandsynligheder ud fra dine mærkninger.
+          </div>
+          <div class="bar" style="margin: 8px 0">
+            <button id="btnBuildGraph">Byg diagram</button>
+            <button id="btnDownloadMermaid" class="secondary">
+              Download Mermaid (.mmd)
+            </button>
+          </div>
+          <div id="mermaidBox" class="flow">
+            <div class="small">Klik “Byg diagram”.</div>
+          </div>
+          <div class="card pad" style="margin-top: 10px">
+            <h4 style="margin: 0 0 6px">Markov-tabel</h4>
+            <div class="small">
+              Optællinger og sandsynligheder beregnet fra rækkefølgen af
+              plot-mærkninger.
+            </div>
+            <pre id="markovOut" class="mono template out" style="margin: 0">
+— ingen —</pre
+            >
+            <div class="bar" style="margin-top: 8px">
+              <button id="btnDownloadCSV" class="secondary">
+                Download CSV
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="grid" style="margin-top: 14px">
+        <div class="card pad">
+          <h3>Skabelonudtræk</h3>
+          <div class="bar">
+            <label class="small"
+              ><input id="includeSignals" type="checkbox" checked /> medtag
+              form-signaler i skabelon (f.eks. &lt;&lt;OMKVÆD&gt;&gt;)</label
+            >
+            <button id="btnExtract">Udtræk skabelon</button>
+            <button id="btnCopyTemplate" class="secondary">Kopiér</button>
+            <button id="btnDownloadTemplate" class="secondary">
+              Download template.txt
+            </button>
+          </div>
+          <pre
+            id="templateOut"
+            class="mono template out"
+            style="margin-top: 8px"
+          >
+— ingen —</pre
+          >
+        </div>
+
+        <div class="card pad">
+          <h3>Forklarende oversigter</h3>
+          <div class="small">
+            Plot-labels (til hoveddiagrammet) og Form-signaler
+            (prosodiske/performative markører).
+          </div>
+          <div id="legendPlot" class="legend" style="margin-top: 8px"></div>
+          <div id="legendSignal" class="legend" style="margin-top: 8px"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Mermaid -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script>
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "default",
+        securityLevel: "loose",
+      });
+    </script>
+    <script>
+      // ---------------- Labels (danske med underscore) ----------------
+      const PLOT_LABELS = [
+        ["INDLEDNING_SCENE", "INDLEDNING_SCENE"],
+        ["KALD_ELLER_LOKKE", "KALD_ELLER_LOKKE"],
+        ["TRUSSEL", "TRUSSEL"],
+        ["GRAENSE_OVERGANG", "GRAENSE_OVERGANG"],
+        ["VALG", "VALG"],
+        ["PROEVE_ELLER_HANDLING", "PROEVE_ELLER_HANDLING"],
+        ["TEGN_ELLER_MAERKE", "TEGN_ELLER_MAERKE"],
+        ["GENKENDELSE_AABENBARING", "GENKENDELSE_AABENBARING"],
+        ["UDFALD_POSITIVT", "UDFALD_POSITIVT"],
+        ["UDFALD_NEGATIVT", "UDFALD_NEGATIVT"],
+        ["HJEMKOMST", "HJEMKOMST"],
+      ];
+      const SIGNAL_LABELS = [
+        ["OMKVAED", "OMKVAED"],
+        ["FAST_OMKVAED", "FAST_OMKVAED"],
+      ];
+      const COLORS = { PLOT: "#e0f2fe", SIGNAL: "#fde68a" };
+
+      // ---------------- Tilstand ----------------
+      let annotations = []; // {id, start, end, kind:"PLOT"|"SIGNAL", label}
+      const textEl = document.getElementById("textInput");
+      const kindSel = document.getElementById("kindSel");
+      const labelSel = document.getElementById("labelSel");
+      const previewEl = document.getElementById("preview");
+      const annListEl = document.getElementById("annList");
+      const templateOut = document.getElementById("templateOut");
+      const markovOut = document.getElementById("markovOut");
+      const mermaidBox = document.getElementById("mermaidBox");
+
+      function uuid() {
+        return crypto.randomUUID
+          ? crypto.randomUUID()
+          : "u" +
+              Date.now().toString(36) +
+              Math.random().toString(36).slice(2, 7);
+      }
+
+      // ---------------- Init ----------------
+      function populateLabelSel() {
+        labelSel.innerHTML = "";
+        const arr = kindSel.value === "PLOT" ? PLOT_LABELS : SIGNAL_LABELS;
+        arr.forEach(([k, n]) => {
+          const o = document.createElement("option");
+          o.value = k;
+          o.textContent = n;
+          labelSel.appendChild(o);
+        });
+      }
+      kindSel.addEventListener("change", populateLabelSel);
+      populateLabelSel();
+
+      // Lille dansk eksempel (kan slettes)
+      textEl.value = `Hr. Oluf rider gennem Lunden og møder Elverkongens Datter.
+
+"Hør du, Hr. Oluf, vil du danse med mig?" — han afslår tre gange.
+
+Hun slår ham for brystet; han rider hjem tvivlrådig.
+
+Men Dansen den går så let gennem Lunden.`;
+
+      render();
+
+      // ---------------- Hjælpere ----------------
+      function overlaps(a, b) {
+        return Math.max(a.start, b.start) < Math.min(a.end, b.end);
+      }
+      function addAnn(newAnn) {
+        for (const a of annotations) {
+          if (overlaps(a, newAnn)) return false;
+        }
+        annotations.push(newAnn);
+        annotations.sort((x, y) => x.start - y.start);
+        return true;
+      }
+      function splitByRanges(text, ranges) {
+        const out = [];
+        let idx = 0;
+        const ord = [...ranges].sort((a, b) => a.start - b.start);
+        for (const r of ord) {
+          if (idx < r.start)
+            out.push({ type: "text", text: text.slice(idx, r.start) });
+          out.push({
+            type: "span",
+            text: text.slice(r.start, r.end),
+            k: r.kind,
+            l: r.label,
+            id: r.id,
+          });
+          idx = r.end;
+        }
+        if (idx < text.length)
+          out.push({ type: "text", text: text.slice(idx) });
+        return out;
+      }
+
+      function render() {
+        // forhåndsvisning
+        previewEl.innerHTML = "";
+        const parts = splitByRanges(textEl.value, annotations);
+        for (const p of parts) {
+          if (p.type === "text") {
+            const s = document.createElement("span");
+            s.textContent = p.text;
+            previewEl.appendChild(s);
+          } else {
+            const s = document.createElement("span");
+            s.textContent = p.text;
+            s.className = "hl " + p.k;
+            s.style.background = COLORS[p.k];
+            s.title = p.l;
+            previewEl.appendChild(s);
+          }
+        }
+        // liste
+        annListEl.innerHTML = annotations.length
+          ? ""
+          : '<div class="small">Ingen mærkninger endnu.</div>';
+        annotations.forEach((a) => {
+          const row = document.createElement("div");
+          row.className = "ann-item";
+          const tag = document.createElement("span");
+          tag.className = "pillchip";
+          tag.textContent = a.kind + ": " + a.label;
+          const quote = document.createElement("span");
+          quote.textContent = "“" + textEl.value.slice(a.start, a.end) + "”";
+          const del = document.createElement("button");
+          del.className = "secondary";
+          del.textContent = "Slet";
+          del.onclick = () => {
+            annotations = annotations.filter((x) => x.id !== a.id);
+            render();
+          };
+          row.append(tag, quote, del);
+          annListEl.appendChild(row);
+        });
+      }
+
+      // ---------------- Mærkning ----------------
+      document.getElementById("btnTag").onclick = () => {
+        const kind = kindSel.value;
+        const label = labelSel.value;
+        if (!label) return alert("Vælg en label.");
+        const start = textEl.selectionStart || 0;
+        const end = textEl.selectionEnd || 0;
+        if (start === end) return alert("Markér først noget tekst.");
+        const ok = addAnn({ id: uuid(), start, end, kind, label });
+        if (!ok) alert("Overlappende mærkninger er ikke tilladt.");
+        render();
+      };
+      document.getElementById("btnClearSel").onclick = () =>
+        textEl.setSelectionRange(0, 0);
+
+      // ---------------- Import/Eksport ----------------
+      document.getElementById("btnExport").onclick = () => {
+        const payload = { text: textEl.value, annotations };
+        download(
+          "folkevise_annoteringer.json",
+          JSON.stringify(payload, null, 2)
+        );
+      };
+      document.getElementById("fileImport").onchange = (e) => {
+        const f = e.target.files?.[0];
+        if (!f) return;
+        const fr = new FileReader();
+        fr.onload = () => {
+          try {
+            const d = JSON.parse(fr.result);
+            if (d.text) textEl.value = d.text;
+            if (Array.isArray(d.annotations)) annotations = d.annotations;
+            render();
+          } catch (err) {
+            alert("Ugyldig JSON");
+          }
+        };
+        fr.readAsText(f);
+      };
+      function download(filename, content) {
+        const blob = new Blob([content], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      // ---------------- Skabelonudtræk ----------------
+      document.getElementById("btnExtract").onclick = () => {
+        const includeSignals =
+          document.getElementById("includeSignals").checked;
+        const ord = [...annotations].sort((a, b) => a.start - b.start);
+        let out = "";
+        let idx = 0;
+        for (const r of ord) {
+          if (idx < r.start) out += textEl.value.slice(idx, r.start);
+          if (r.kind === "PLOT") {
+            out += `[[${r.label}]]`;
+          } else if (includeSignals) {
+            out += `<<${r.label}>>`;
+          }
+          idx = r.end;
+        }
+        if (idx < textEl.value.length) out += textEl.value.slice(idx);
+        out = out
+          .replace(/[ \t]+/g, " ")
+          .replace(/\s*\n\s*/g, "\n")
+          .replace(/\n{3,}/g, "\n\n")
+          .trim();
+        templateOut.textContent = out || "— ingen —";
+      };
+      document.getElementById("btnCopyTemplate").onclick = () =>
+        navigator.clipboard.writeText(templateOut.textContent || "");
+      document.getElementById("btnDownloadTemplate").onclick = () =>
+        download("skabelon.txt", templateOut.textContent || "");
+
+      // ---------------- Markov & Mermaid ----------------
+      document.getElementById("btnBuildGraph").onclick = () => {
+        const { counts, probs, states, signalCounts } = computeMarkov();
+        markovOut.textContent = JSON.stringify({ counts, probs }, null, 2);
+        const mmd = toMermaid(states, probs, signalCounts);
+        renderMermaid(mmd);
+        window._lastMermaid = mmd; // til download
+      };
+      document.getElementById("btnDownloadMermaid").onclick = () => {
+        const code =
+          window._lastMermaid || "flowchart LR\n  %% byg først diagrammet";
+        download("plotdiagram.mmd", code);
+      };
+      document.getElementById("btnDownloadCSV").onclick = () => {
+        const { counts, probs } = computeMarkov();
+        let csv = "fra,til,optælling,sandsynlighed\n";
+        Object.entries(counts).forEach(([from, toMap]) => {
+          Object.entries(toMap).forEach(([to, c]) => {
+            const p =
+              probs[from] && probs[from][to] != null ? probs[from][to] : 0;
+            csv += `${from},${to},${c},${p.toFixed(4)}\n`;
+          });
+        });
+        download("markov.csv", csv);
+      };
+
+      function computeMarkov() {
+        // rækkefølge af plot-labels → overgange
+        const plot = annotations
+          .filter((a) => a.kind === "PLOT")
+          .sort((a, b) => a.start - b.start);
+        const states = Array.from(new Set(plot.map((p) => p.label)));
+        const counts = {};
+        for (let i = 0; i < plot.length - 1; i++) {
+          const from = plot[i].label;
+          const to = plot[i + 1].label;
+          counts[from] = counts[from] || {};
+          counts[from][to] = (counts[from][to] || 0) + 1;
+        }
+        // sandsynligheder
+        const probs = {};
+        Object.entries(counts).forEach(([from, toMap]) => {
+          const total = Object.values(toMap).reduce((a, b) => a + b, 0);
+          probs[from] = {};
+          Object.entries(toMap).forEach(([to, c]) => {
+            probs[from][to] = c / total;
+          });
+        });
+        // signal-optælling pr. seneste plottilstand
+        const signalCounts = {};
+        let currentState = null;
+        const ord = [...annotations].sort((a, b) => a.start - b.start);
+        for (const a of ord) {
+          if (a.kind === "PLOT") {
+            currentState = a.label;
+          } else if (a.kind === "SIGNAL" && currentState) {
+            signalCounts[currentState] = (signalCounts[currentState] || 0) + 1;
+          }
+        }
+        return { counts, probs, states, signalCounts };
+      }
+
+      function toMermaid(states, probs, signalCounts) {
+        const lines = ["flowchart LR"];
+        const presentStates = new Set();
+        Object.keys(probs).forEach((f) => {
+          presentStates.add(f);
+          Object.keys(probs[f]).forEach((t) => presentStates.add(t));
+        });
+        states.forEach((s) => presentStates.add(s));
+        if (presentStates.size === 0) {
+          lines.push("  TOM[Ingen plottilstande mærket]");
+          return lines.join("\n");
+        }
+        presentStates.forEach((s) => {
+          lines.push(`  ${s}[${s}]`);
+        });
+        // kanter
+        Object.entries(probs).forEach(([from, toMap]) => {
+          Object.entries(toMap).forEach(([to, p]) => {
+            const lab = p > 0 ? `|${(p * 100).toFixed(0)}%|` : "";
+            lines.push(`  ${from} --> ${lab} ${to}`);
+          });
+        });
+        // prikkede selv-løkker for signaler
+        Object.entries(signalCounts).forEach(([s, c]) => {
+          if (c > 0) lines.push(`  ${s} -. omkvæd/burden ×${c} .-> ${s}`);
+        });
+        return lines.join("\n");
+      }
+      async function renderMermaid(code) {
+        mermaidBox.innerHTML = '<div class="small">Renderer…</div>';
+        try {
+          const { svg } = await mermaid.render("graf" + Date.now(), code);
+          mermaidBox.innerHTML = svg;
+        } catch (err) {
+          mermaidBox.innerHTML = `<div class=small style="color:#b91c1c">Mermaid-fejl: ${String(
+            err
+          )}</div><pre class="mono template">${code}</pre>`;
+        }
+      }
+
+      // ---------------- Legender ----------------
+      (function legends() {
+        const legendPlot = document.getElementById("legendPlot");
+        PLOT_LABELS.forEach(([k, n]) => {
+          const s = document.createElement("span");
+          s.className = "tag";
+          const sw = document.createElement("span");
+          sw.className = "pillchip";
+          sw.style.background = COLORS.PLOT;
+          sw.textContent = " ";
+          s.appendChild(sw);
+          s.appendChild(document.createTextNode(" " + n));
+          legendPlot.appendChild(s);
+        });
+        const legendSignal = document.getElementById("legendSignal");
+        SIGNAL_LABELS.forEach(([k, n]) => {
+          const s = document.createElement("span");
+          s.className = "tag";
+          const sw = document.createElement("span");
+          sw.className = "pillchip";
+          sw.style.background = COLORS.SIGNAL;
+          sw.textContent = " ";
+          s.appendChild(sw);
+          s.appendChild(document.createTextNode(" " + n));
+          legendSignal.appendChild(s);
+        });
+        populateLabelSel();
+      })();
+    </script>
+  </body>
+</html>
