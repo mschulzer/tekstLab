@@ -255,6 +255,12 @@
       position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
       clip:rect(0,0,1px,1px); white-space:nowrap; border:0;
     }
+    button:disabled,
+    .label-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none; /* blocks clicks */
+    }
 </style>
     <!--<link rel="stylesheet" href="include/layout.css">-->
   </head>
@@ -270,6 +276,7 @@
           skabelon.
         </div>
         -->
+        
       </header>
 
       <section class="grid" style="margin-top: 14px">
@@ -285,7 +292,7 @@
             <button id="btnClearSel" class="secondary">Ryd opmærkning</button>
             <!--<button id="btnExport" class="secondary">Eksportér JSON</button>-->
             <label
-              class="secondary"
+              class="secondary label-disabled"
               style="
                 padding: 8px 12px;
                 border-radius: 10px;
