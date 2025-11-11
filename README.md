@@ -1,7 +1,11 @@
 # TxtLab/ Folkeeventyr og -viser
 
-### DISCLAIMER:
+### About
+
+[...]
+
+### Disclaimer:
 
 - Texts are still hard-coded at this point.
-- `form-signals` are only added to nodes/states sequentially.
-- The `Markov-tabel`-section (with its probabilities) isn't really serving any purpose.
+- `form-signals` are added to nodes/states sequentially.
+- The `Markov-tabel`-section (with its probabilities) is to be given some (future) purpose.
