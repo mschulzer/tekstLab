@@ -1,10 +1,10 @@
 # TxtLab/ Folkeeventyr og -viser
 
-### About
+### ABOUT THE PROJECT
 
-[...]
+The purpose of this rather simple webapp is to enable students (in L1) to work computationally/algorithmically with the analysis of folktales, but in ways underpinned theoretically by the work of early Formalists like Propp, Greimas, etc.
 
-### Disclaimer:
+### DISCLAIMER
 
 - Texts are still hard-coded at this point.
 - `form-signals` are added to nodes/states sequentially.
