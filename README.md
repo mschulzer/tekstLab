@@ -8,6 +8,6 @@ If you are interested in learning more, or if you have any questions, comments, 
 
 ### DISCLAIMER
 
-- Texts are still hard-coded at this point.
+- Texts (i.e., the specific folktales) are still hard-coded at this point.
 - `form-signals` are added to nodes/states sequentially.
 - The `Markov-tabel`-section (with its probabilities) is to be given some (future) purpose.
