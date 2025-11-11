@@ -10,4 +10,4 @@ If you are interested in learning more about the project, or if you have any que
 
 - Texts (i.e., the specific folktales) are still hard-coded at this point.
 - Have in mind that `form-signals` are added to nodes/states sequentially.
-- The `Markov-tabel`-section (with its probabilities) is to be given some (future) purpose.
+- The `Markov-tabel`-section (with its probabilities) is not serving any purpose atm.
