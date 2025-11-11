@@ -1,6 +1,6 @@
 # TxtLab/ Folkeeventyr og -viser
 
-### ERRATA:
+### DISCLAIMER:
 
 - Texts are still hard-coded at this point.
 - `form-signals` are only added to nodes/states sequentially.
