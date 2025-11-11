@@ -3,11 +3,11 @@ const PLOT_LABELS = [
   ["INDLEDNING", "INDLEDNING"],
   ["KALD_ELLER_LOKKE", "KALD_ELLER_LOKKE"],
   ["TRUSSEL", "TRUSSEL"],
-  ["GRAENSE_OVERGANG", "GRAENSE_OVERGANG"],
+  ["GRÆNSE_OVERGANG", "GRÆNSE_OVERGANG"],
   ["VALG", "VALG"],
-  ["PROEVE_ELLER_HANDLING", "PROEVE_ELLER_HANDLING"],
-  ["TEGN_ELLER_MAERKE", "TEGN_ELLER_MAERKE"],
-  ["GENKENDELSE_AABENBARING", "GENKENDELSE_AABENBARING"],
+  ["PRØVE_ELLER_HANDLING", "PRØVE_ELLER_HANDLING"],
+  ["TEGN_ELLER_MÆRKE", "TEGN_ELLER_MÆRKE"],
+  ["GENKENDELSE_ÅBENBARING", "GENKENDELSE_ÅBENBARING"],
   ["UDFALD_POSITIVT", "UDFALD_POSITIVT"],
   ["UDFALD_NEGATIVT", "UDFALD_NEGATIVT"],
   ["HJEMKOMST", "HJEMKOMST"],
@@ -191,32 +191,33 @@ document.getElementById("btnTag").onclick = () => {
   render();
 };
 /*
-      document.getElementById("btnTag").onclick = () => {
-        const kind = kindSel.value;
-        const label = labelSel.value;
-        if (!label) return alert("Vælg en label.");
-        const start = textEl.selectionStart || 0;
-        const end = textEl.selectionEnd || 0;
-        if (start === end) return alert("Markér først noget tekst.");
-        const ok = addAnn({ id: uuid(), start, end, kind, label });
-        if (!ok) alert("Overlappende mærkninger er ikke tilladt.");
-        render();
-      };
+document.getElementById("btnTag").onclick = () => {
+  const kind = kindSel.value;
+  const label = labelSel.value;
+  if (!label) return alert("Vælg en label.");
+    const start = textEl.selectionStart || 0;
+    const end = textEl.selectionEnd || 0;
+  if (start === end) return alert("Markér først noget tekst.");
+    const ok = addAnn({ id: uuid(), start, end, kind, label });
+  if (!ok) alert("Overlappende mærkninger er ikke tilladt.");
+    render();
+};
+*/
 
-      */
-document.getElementById("btnClearSel").onclick = () =>
+document.getElementById("btnClearSel").onclick = () => {
   textEl.setSelectionRange(0, 0);
+};
 
 // ---------------- Import/Eksport ----------------
 /*
-      document.getElementById("btnExport").onclick = () => {
-        const payload = { text: textEl.value, annotations };
-        download(
-          "folkevise_annoteringer.json",
-          JSON.stringify(payload, null, 2)
-        );
-      };
-      */
+document.getElementById("btnExport").onclick = () => {
+  const payload = { text: textEl.value, annotations };
+  download(
+    "folkevise_annoteringer.json",
+    JSON.stringify(payload, null, 2)
+  );
+};
+*/
 
 document.getElementById("fileImport").onchange = (e) => {
   const f = e.target.files?.[0];
