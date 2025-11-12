@@ -13,8 +13,8 @@ const PLOT_LABELS = [
   ["HJEMKOMST", "HJEMKOMST"],
 ];
 const SIGNAL_LABELS = [
-  ["OMKVAED", "OMKVAED"],
-  ["FAST_OMKVAED", "FAST_OMKVAED"],
+  ["OMKVÆD", "OMKVÆD"],
+  ["FAST_OMKVÆD", "FAST_OMKVÆD"],
 ];
 const COLORS = { PLOT: "#e0f2fe", SIGNAL: "#fde68a" };
 

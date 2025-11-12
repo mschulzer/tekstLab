@@ -1,5 +1,9 @@
 # TxtLab/ Folkeeventyr og -viser
 
+<div align="center">
+  <img src="docs/static/App.png" width="100%">
+</div>
+
 ### ℹ ABOUT
 
 The purpose of this very crude webapp is to enable students (in highschool L1-teaching) to work computationally and algorithmically with the (textual) analysis of Danish folktales, underguirded theoretically by the work of Vladimir Propp, Greimas, etc. Students' ways of using the webapp is part of ongoing research conducted at/by the Department of Computer Science / Department of Science Teaching at the University of Copenhagen.
