@@ -498,6 +498,8 @@ function computeMarkov() {
 
 function toMermaid(states, probs, signalCounts) {
   const lines = ["graph LR"];
+  lines.push(`   style START fill:#000,stroke:#000,stroke-width:2px`);
+  lines.push("   START(( )) --> ");
   const presentStates = new Set();
   Object.keys(probs).forEach((f) => {
     presentStates.add(f);
