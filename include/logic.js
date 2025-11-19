@@ -409,68 +409,30 @@ document.getElementById("btnBuildGraph").onclick = () => {
   renderMermaid(mmd);
   window._lastMermaid = mmd; // til download
 };
-async function downloadMermaidPng(svgText, filename = "plotdiagram.png") {
-  if (!window.Canvg) {
-    throw new Error("Canvg er ikke indlæst.");
-  }
-  const domParser = new DOMParser();
-  const doc = domParser.parseFromString(svgText, "image/svg+xml");
-  const svgEl = doc.documentElement;
-  let widthAttr = svgEl.getAttribute("width");
-  let heightAttr = svgEl.getAttribute("height");
-  let width =
-    widthAttr && !widthAttr.includes("%") ? parseFloat(widthAttr) : null;
-  let height =
-    heightAttr && !heightAttr.includes("%") ? parseFloat(heightAttr) : null;
-  const vb = svgEl.getAttribute("viewBox");
-  if ((!width || !height) && vb) {
-    const parts = vb.split(/\s+/).map((n) => Number(n));
-    if (parts.length === 4) {
-      width = parts[2];
-      height = parts[3];
-    }
-  }
-  if (!width || !height) {
-    width = 1200;
-    height = 800;
-  }
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("Kan ikke bruge canvas-context.");
-  const renderer = await Canvg.from(ctx, svgText, {
-    ignoreMouse: true,
-    ignoreAnimation: true,
+async function downloadMermaidPng(mmd, filename = "plotdiagram.png") {
+  const res = await fetch("https://kroki.io/mermaid/png", {
+    method: "POST",
+    headers: { "Content-Type": "text/plain" },
+    body: mmd,
   });
-  await renderer.render();
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        if (!blob) {
-          reject(new Error("Kunne ikke generere PNG."));
-          return;
-        }
-        const pngUrl = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = pngUrl;
-        a.download = filename;
-        a.click();
-        URL.revokeObjectURL(pngUrl);
-        resolve();
-      },
-      "image/png",
-      1
-    );
-  });
+  if (!res.ok) {
+    throw new Error(`Kroki-svar: ${res.status}`);
+  }
+  const blob = await res.blob();
+  const pngUrl = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = pngUrl;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(pngUrl);
 }
 document.getElementById("btnDownloadMermaid").onclick = async () => {
-  if (!window._lastMermaidSvg) {
+  if (!window._lastMermaid) {
     alert("Byg diagrammet først.");
     return;
   }
   try {
-    await downloadMermaidPng(window._lastMermaidSvg);
+    await downloadMermaidPng(window._lastMermaid);
   } catch (err) {
     alert("Kunne ikke downloade PNG: " + err.message);
   }
