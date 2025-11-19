@@ -77,13 +77,141 @@ function populateLabelSel() {
 kindSel.addEventListener("change", populateLabelSel);
 populateLabelSel();
 
-// Lille dansk eksempel (kan slettes)
-textEl.value = `1.   Hr. Oluf rider saa vide,
-      alt til sit Bryllup at byde.
-      Men Dansen den gaar saa let gennem Lunden.
+textEl.value = `1.  Hr. Iver han svøber sig Hoved i Skind,
+          — Fuglene synge i Skove. —
+     han ganger i Loft for liden Kirstin ind
+     Hun var saa skær en Jomfrove.
 
-2.   Hr. Oluf rider med Bjerge,
-      der dansed Elver og Dverge.`;
+2.  »Her sidder du, kjær Søster, saa favr og fin!
+     og nu skalt du fremme Viljen min.«
+
+3.  »Det véd Gud og Vor-Herre,
+     to Søskend maa ej sammen være.
+
+4.  Det véd Gud og Vor-Frove,
+     at Broder maa ej Søster love.«
+
+5.  »Og kan jeg nu ikke min Vilje faa,
+     saa led en Løgn skal jeg lægge dig paa.«
+
+6.  »Du lyv alt det, du vilt lyve,
+     saa baade din Øjen udflyve!
+
+7.  Lyv, mens du kan! og lyv, mens du vil!
+     du lukker dog ikke Himmerige til.«
+
+8.  Hr. Iver han ganger for Moder sin:
+     »Hvordan har I optugtet hin liden Kirstin?«
+
+9.  »Saa har jeg optugtet Søster din,
+     som jeg vil svare for Herre Gud min.
+
+10.  Jeg holdt hende til Tugt og Ære,
+     hun lever, som en Jomfru skal være.«
+
+11. »Nej, hun driver Hor, og hun driver Mord,
+     hun føder smaa Børn, sætter levendes i Jord.«
+
+12.  »Ti stille, Hr. Iver! hvi lyver du saa?
+     hun er ej den første, du har løjet paa.«
+
+13.  Hr. Iver han ganger for Fader sin:
+     »Hvordan har I lært kjær Søster min?«
+
+14.  »Til Ære og Dyd haver jeg hende holdt,
+     hun lever jo som en Jomfru stolt.«
+
+15.  »Nej, hun driver Hor, og hun driver Mord,
+     hun føder smaa Børn, sætter levendes i Jord.«
+
+16.  Den Greve han slog sin Haand imod Bord:
+     »Ret aldrig da kan jeg tro slig Ord.«
+
+17.  »Hvor skulde Græsset paa Jorden kunne gro,
+     om Fader kan ikke Sønnen tro!«
+
+18.  »Hør du, Hr. Iver, Sønnen min!
+     hvad Dom siger du over Søster din:
+
+19.  Vilt du have hende i Galgen hængt:
+     eller vilt du have hende paa Baalet brændt:
+
+20.  »Hun skal ikke i Galgen hænge,
+     men hun skal paa Baalet brænde.«
+
+21.  Den Greve heder paa Svende tre:
+     »I ganger i Skov og hugger Ved!
+
+22.  Hugger I Birk, og hugger I Bøg!
+     bygger saa op det Baal saa højt.
+
+23.  Hugger I Asp, og hugger I Eg!
+     deraf saa vorder Luen hed.«
+
+24.  De ledte liden Kirstin for oven By,
+     hun løfte sin Øjen højt i Sky.
+
+25.  De ledte liden Kirstin over en Eng:
+     »Og hisset ser jeg min Brudeseng!
+
+26.  Den Seng er rød og ikke hvid,
+     det er faa, som gifte sin Datter slig.
+
+27.  De Bolster ere røde, de Lagen ere blaa,
+     Gud trøste den, dèr skal hvile opaa!«
+
+28.  Hr. Iver hans Hjærte var haardt som Staal,
+     han satte selv sin Søster paa Baal.
+
+29.  Det mælte liden Kirstin, der Baalet brand:
+     »I giver mig at drikke i Jesu Navn!«
+
+30.  De rakte et Sølvkar op paa et Spjud:
+     Hr. Iver han slog al Drikken ud.
+
+31.  Luen den legte saa højt i Sky,
+     og Røgen drev over Land og By.
+
+32.  Det Baal var brændt og laa i Glød:
+     dèr laa liden Kirstin hvid og rød.
+
+33.  Og der det Baal var helt udbrændt,
+     da var end ej hendes Klæder skjændt.
+
+34.  Der kom flyvend' to Duer hvid',
+     de førte liden Kirstin til Himmerig.
+
+35.  Der fløj to Duer fra Himlen ned,
+     der de fløj op, da vare de tre.
+
+36.  Der de fløj op, da vare de tre,
+     liden Kirstin hun var fejrest af de.
+
+37.  Og der kom flyvend' to Ravne sort',
+     de førte Hr. Iver til Helvedes Port.
+
+38.  Der fløj to Ravne fra Helvede op,
+     de vare tre, der de fløj bort.
+
+39.  Og der de fløj til Helvede ned,
+     Hr. Iver han var ledest af de.
+
+40.  Det maatte man høre saa langt af Land,
+     hvor liden Kirstin i Himmerig sang.
+
+41.  Det maatte man høre saa langt af Led,
+     hvor hendes Broder i Helvede skreg.
+
+42.  Liden Kirstin hun kom i Himmerig ind,
+     saa bad hun om Naade for Broder sin.
+
+43.  Hun bad for Fader og Moder,
+     allermest for Iver, sin Broder.
+
+44.  »Din Fader og Moder kan Naade faa,
+        — Fuglen synger i Skove. —
+     men Iver, din Broder, maa i Helvede gaa.«
+     Hun var saa skær en Jomfrove.`;
 
 render();
 
@@ -276,14 +404,76 @@ document.getElementById("btnDownloadTemplate").onclick = () =>
 // ---------------- Markov & Mermaid ----------------
 document.getElementById("btnBuildGraph").onclick = () => {
   const { counts, probs, states, signalCounts } = computeMarkov();
-  markovOut.textContent = JSON.stringify({ counts, probs }, null, 2);
+  //markovOut.textContent = JSON.stringify({ counts, probs }, null, 2);
   const mmd = toMermaid(states, probs, signalCounts);
   renderMermaid(mmd);
   window._lastMermaid = mmd; // til download
 };
-document.getElementById("btnDownloadMermaid").onclick = () => {
-  const code = window._lastMermaid || "flowchart LR\n  %% byg først diagrammet";
-  download("plotdiagram.mmd", code);
+async function downloadMermaidPng(svgText, filename = "plotdiagram.png") {
+  if (!window.Canvg) {
+    throw new Error("Canvg er ikke indlæst.");
+  }
+  const domParser = new DOMParser();
+  const doc = domParser.parseFromString(svgText, "image/svg+xml");
+  const svgEl = doc.documentElement;
+  let widthAttr = svgEl.getAttribute("width");
+  let heightAttr = svgEl.getAttribute("height");
+  let width =
+    widthAttr && !widthAttr.includes("%") ? parseFloat(widthAttr) : null;
+  let height =
+    heightAttr && !heightAttr.includes("%") ? parseFloat(heightAttr) : null;
+  const vb = svgEl.getAttribute("viewBox");
+  if ((!width || !height) && vb) {
+    const parts = vb.split(/\s+/).map((n) => Number(n));
+    if (parts.length === 4) {
+      width = parts[2];
+      height = parts[3];
+    }
+  }
+  if (!width || !height) {
+    width = 1200;
+    height = 800;
+  }
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) throw new Error("Kan ikke bruge canvas-context.");
+  const renderer = await Canvg.from(ctx, svgText, {
+    ignoreMouse: true,
+    ignoreAnimation: true,
+  });
+  await renderer.render();
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error("Kunne ikke generere PNG."));
+          return;
+        }
+        const pngUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = pngUrl;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(pngUrl);
+        resolve();
+      },
+      "image/png",
+      1
+    );
+  });
+}
+document.getElementById("btnDownloadMermaid").onclick = async () => {
+  if (!window._lastMermaidSvg) {
+    alert("Byg diagrammet først.");
+    return;
+  }
+  try {
+    await downloadMermaidPng(window._lastMermaidSvg);
+  } catch (err) {
+    alert("Kunne ikke downloade PNG: " + err.message);
+  }
 };
 
 /*
@@ -370,6 +560,7 @@ async function renderMermaid(code) {
   try {
     const { svg } = await mermaid.render("graf" + Date.now(), code);
     mermaidBox.innerHTML = svg;
+    window._lastMermaidSvg = svg;
   } catch (err) {
     mermaidBox.innerHTML = `<div class=small style="color:#b91c1c">Mermaid-fejl: ${String(
       err

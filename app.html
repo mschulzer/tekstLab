@@ -72,10 +72,10 @@
         </div>
 
         <div class="card pad">
-          <h3>Tilstandsdiagram</h3>
+          <h3>Tilstandsmaskine</h3>
           <div class="small">
-            <strong>Forklaring:</strong> faste pile = plotovergange; prikkede selv-løkker = om- eller mellemkvæd.
-            Kantlabels viser sandsynligheder ud fra dine mærkninger. Rektanglerne kaldes knuder og illustrere tilstande.
+            <strong>Forklaring:</strong> rektanglerne (kaldes også <i>knuder</i>) illustrerer <u>tilstande</u>. faste pile = plotovergange; prikkede selv-løkker = om- eller mellemkvæd.
+            Kantlabels viser sandsynligheder ud fra dine mærkninger.
           </div>
           <div class="bar" style="margin: 8px 0">
             <button id="btnBuildGraph">Byg diagram</button>
@@ -98,6 +98,7 @@
           <div id="mermaidBox" class="flow">
             <div class="small">Klik “Byg diagram”.</div>
           </div>
+          <!--
           <div class="card pad" style="margin-top: 10px">
             <h4 style="margin: 0 0 6px">Markov-tabel</h4>
             <div class="small">
@@ -105,16 +106,14 @@
               opmærkninger.
             </div>
             <pre id="markovOut" class="mono template out" style="margin: 0">
-— ingen —</pre
-            >
+— ingen —</pre>
             <div class="bar" style="margin-top: 8px">
-              <!--
               <button id="btnDownloadCSV" class="secondary">
                 Download CSV
               </button>
-            -->
             </div>
           </div>
+        -->
         </div>
       </section>
 
@@ -169,6 +168,7 @@
         securityLevel: "loose",
       });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvg@4/dist/browser/canvg.min.js"></script>
     <script src="include/logic.js"></script>
   </body>
 </html>
