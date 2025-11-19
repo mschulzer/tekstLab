@@ -1,20 +1,27 @@
 // ---------------- Labels (danske med underscore) ----------------
 const PLOT_LABELS = [
-  ["INDLEDNING", "INDLEDNING"],
-  ["KALD_ELLER_LOKKE", "KALD_ELLER_LOKKE"],
+  ["FRAVÆR", "FRAVÆR"],
+  ["MANGEL", "MANGEL"],
+  ["KALD", "KALD"],
+  ["BEFALING", "BEFALING"],
   ["TRUSSEL", "TRUSSEL"],
+  ["BEDRAG", "BEDRAG"],
   ["GRÆNSE_OVERGANG", "GRÆNSE_OVERGANG"],
   ["VALG", "VALG"],
-  ["PRØVE_ELLER_HANDLING", "PRØVE_ELLER_HANDLING"],
-  ["TEGN_ELLER_MÆRKE", "TEGN_ELLER_MÆRKE"],
-  ["GENKENDELSE_ÅBENBARING", "GENKENDELSE_ÅBENBARING"],
-  ["UDFALD_POSITIVT", "UDFALD_POSITIVT"],
-  ["UDFALD_NEGATIVT", "UDFALD_NEGATIVT"],
+  ["PRØVE", "PRØVE"],
+  ["HANDLING", "HANDLING"],
+  ["TEGN_MÆRKE", "TEGN_MÆRKE"],
+  ["GENKENDELSE", "GENKENDELSE"],
+  ["ÅBENBARING", "ÅBENBARING"],
+  ["KAMP", "KAMP"],
+  ["UDFALD_P", "UDFALD_P"],
+  ["UDFALD_N", "UDFALD_N"],
+  ["OPHÆVELSE", "OPHÆVELSE"],
   ["HJEMKOMST", "HJEMKOMST"],
 ];
 const SIGNAL_LABELS = [
   ["OMKVÆD", "OMKVÆD"],
-  ["FAST_OMKVÆD", "FAST_OMKVÆD"],
+  ["MELLEMKVÆD", "MELLEMKVÆD"],
 ];
 const COLORS = { PLOT: "#e0f2fe", SIGNAL: "#fde68a" };
 
@@ -490,7 +497,7 @@ function computeMarkov() {
 }
 
 function toMermaid(states, probs, signalCounts) {
-  const lines = ["flowchart LR"];
+  const lines = ["graph LR"];
   const presentStates = new Set();
   Object.keys(probs).forEach((f) => {
     presentStates.add(f);
@@ -501,19 +508,23 @@ function toMermaid(states, probs, signalCounts) {
     lines.push("  TOM[Ingen plottilstande mærket]");
     return lines.join("\n");
   }
-  presentStates.forEach((s) => {
-    lines.push(`  ${s}[${s}]`);
+  const orderedStates = Array.from(presentStates);
+  orderedStates.forEach((s, idx) => {
+    const finale = idx === orderedStates.length - 1 ? "(((" : "((";
+    const closing = idx === orderedStates.length - 1 ? ")))" : "))";
+    lines.push(`  ${s}${finale}${s}${closing}`);
   });
   // kanter
+  let edgeCounter = 1;
   Object.entries(probs).forEach(([from, toMap]) => {
-    Object.entries(toMap).forEach(([to, p]) => {
-      const lab = p > 0 ? `|${(p * 100).toFixed(0)}%|` : "";
+    Object.keys(toMap).forEach((to) => {
+      const lab = `|${edgeCounter++}|`;
       lines.push(`  ${from} --> ${lab} ${to}`);
     });
   });
   // prikkede selv-løkker for signaler
   Object.entries(signalCounts).forEach(([s, c]) => {
-    if (c > 0) lines.push(`  ${s} -. omkvæd/burden ×${c} .-> ${s}`);
+    if (c > 0) lines.push(`  ${s} -. om-mlkvæd ×${c} .-> ${s}`);
   });
   return lines.join("\n");
 }
