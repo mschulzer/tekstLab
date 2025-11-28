@@ -70,7 +70,7 @@ button {
 
 textarea {
     width: 100%;
-    min-height: 210px;
+    min-height: 350px;
     max-height: 60vh;
     overflow-y: auto;
     border: 1px solid var(--border);

@@ -3,6 +3,7 @@ const PLOT_LABELS = [
   ["FRAVÆR", "FRAVÆR"],
   ["MANGEL", "MANGEL"],
   ["KALD", "KALD"],
+  ["DIALOG", "DIALOG"],
   ["BEFALING", "BEFALING"],
   ["TRUSSEL", "TRUSSEL"],
   ["BEDRAG", "BEDRAG"],
