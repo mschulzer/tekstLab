@@ -363,9 +363,10 @@ document.getElementById("btnExtract").onclick = () => {
 };
 document.getElementById("btnCopyTemplate").onclick = () =>
   navigator.clipboard.writeText(templateOut.textContent || "");
+/*
 document.getElementById("btnDownloadTemplate").onclick = () =>
   download("skabelon.txt", templateOut.textContent || "");
-
+*/
 // ---------------- Markov & Mermaid ----------------
 document.getElementById("btnBuildGraph").onclick = () => {
   const { counts, probs, states, signalCounts } = computeMarkov();
