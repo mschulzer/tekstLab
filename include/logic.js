@@ -36,55 +36,7 @@ const templateOut = document.getElementById("templateOut");
 const markovOut = document.getElementById("markovOut");
 const mermaidBox = document.getElementById("mermaidBox");
 
-// --- Selection cache so users can select first, then choose labels ---
-let selCache = { start: null, end: null, text: "" };
-
-function cacheSelection() {
-  if (!textEl) return;
-  const s = textEl.selectionStart ?? 0;
-  const e = textEl.selectionEnd ?? 0;
-  if (e > s) {
-    selCache.start = s;
-    selCache.end = e;
-    selCache.text = textEl.value.slice(s, e);
-  }
-}
-
-// update cache whenever the user selects in the textarea
-textEl.addEventListener("select", cacheSelection);
-textEl.addEventListener("mouseup", cacheSelection);
-textEl.addEventListener("keyup", (ev) => {
-  // arrow keys / shift selection changes
-  if (
-    ev.shiftKey ||
-    ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(ev.key)
-  ) {
-    cacheSelection();
-  }
-});
-textEl.addEventListener("blur", cacheSelection);
-
-function uuid() {
-  return crypto.randomUUID
-    ? crypto.randomUUID()
-    : "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
-}
-
-// ---------------- Init ----------------
-function populateLabelSel() {
-  labelSel.innerHTML = "";
-  const arr = kindSel.value === "PLOT" ? PLOT_LABELS : SIGNAL_LABELS;
-  arr.forEach(([k, n]) => {
-    const o = document.createElement("option");
-    o.value = k;
-    o.textContent = n;
-    labelSel.appendChild(o);
-  });
-}
-kindSel.addEventListener("change", populateLabelSel);
-populateLabelSel();
-
-textEl.value = `1.  Hr. Iver han svøber sig Hoved i Skind,
+const SAMPLE_TEXT = `1.  Hr. Iver han svøber sig Hoved i Skind,
           — Fuglene synge i Skove. —
      han ganger i Loft for liden Kirstin ind
      Hun var saa skær en Jomfrove.
@@ -220,6 +172,67 @@ textEl.value = `1.  Hr. Iver han svøber sig Hoved i Skind,
      men Iver, din Broder, maa i Helvede gaa.«
      Hun var saa skær en Jomfrove.`;
 
+// --- Selection cache so users can select first, then choose labels ---
+let selCache = { start: null, end: null, text: "" };
+
+function cacheSelection() {
+  if (!textEl) return;
+  const s = textEl.selectionStart ?? 0;
+  const e = textEl.selectionEnd ?? 0;
+  if (e > s) {
+    selCache.start = s;
+    selCache.end = e;
+    selCache.text = textEl.value.slice(s, e);
+  }
+}
+
+// update cache whenever the user selects in the textarea
+textEl.addEventListener("select", cacheSelection);
+textEl.addEventListener("mouseup", cacheSelection);
+textEl.addEventListener("keyup", (ev) => {
+  // arrow keys / shift selection changes
+  if (
+    ev.shiftKey ||
+    ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(ev.key)
+  ) {
+    cacheSelection();
+  }
+});
+textEl.addEventListener("blur", cacheSelection);
+
+function uuid() {
+  return crypto.randomUUID
+    ? crypto.randomUUID()
+    : "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+}
+
+// ---------------- Init ----------------
+function populateLabelSel() {
+  labelSel.innerHTML = "";
+  const arr = kindSel.value === "PLOT" ? PLOT_LABELS : SIGNAL_LABELS;
+  arr.forEach(([k, n]) => {
+    const o = document.createElement("option");
+    o.value = k;
+    o.textContent = n;
+    labelSel.appendChild(o);
+  });
+}
+kindSel.addEventListener("change", populateLabelSel);
+populateLabelSel();
+
+function resetText(newText) {
+  textEl.value = newText;
+  annotations = [];
+  selCache = { start: null, end: null, text: "" };
+  render();
+}
+function handleTextChanged() {
+  // new input invalidates existing annotations, so start fresh
+  annotations = [];
+  selCache = { start: null, end: null, text: "" };
+  render();
+}
+textEl.addEventListener("input", handleTextChanged);
 render();
 
 // ---------------- Hjælpere ----------------
@@ -342,6 +355,21 @@ document.getElementById("btnTag").onclick = () => {
 document.getElementById("btnClearSel").onclick = () => {
   textEl.setSelectionRange(0, 0);
 };
+
+document.getElementById("btnPasteClipboard").onclick = async () => {
+  try {
+    const clipText = await navigator.clipboard.readText();
+    if (!clipText) {
+      alert("Udklipsholderen er tom eller indeholder ikke tekst.");
+      return;
+    }
+    resetText(clipText);
+  } catch (err) {
+    alert("Kunne ikke læse udklipsholderen: " + err.message);
+  }
+};
+
+document.getElementById("btnLoadSample").onclick = () => resetText(SAMPLE_TEXT);
 
 // ---------------- Import/Eksport ----------------
 /*
