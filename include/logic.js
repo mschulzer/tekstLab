@@ -296,7 +296,30 @@ document.getElementById("btnTag").onclick = () => {
 */
 
 document.getElementById("btnClearSel").onclick = () => {
-  textEl.setSelectionRange(0, 0);
+  // Remove annotations that overlap the current (or cached) selection
+  let start = textEl.selectionStart ?? 0;
+  let end = textEl.selectionEnd ?? 0;
+  if (start === end && selCache.start != null && selCache.end > selCache.start) {
+    start = selCache.start;
+    end = selCache.end;
+  }
+
+  if (start === end) {
+    alert("Markér først en opmærket passage, der skal fjernes.");
+    return;
+  }
+
+  const before = annotations.length;
+  annotations = annotations.filter((a) => !overlaps(a, { start, end }));
+  if (annotations.length === before) {
+    alert("Ingen opmærkninger i den valgte tekst.");
+  }
+
+  selCache = { start: null, end: null, text: "" };
+  document.getSelection()?.removeAllRanges?.();
+  textEl.focus();
+  textEl.setSelectionRange(start, start);
+  render();
 };
 
 document.getElementById("btnPasteClipboard").onclick = async () => {
