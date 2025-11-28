@@ -355,25 +355,11 @@ function download(filename, content) {
 // ---------------- Skabelonudtræk ----------------
 document.getElementById("btnExtract").onclick = () => {
   const includeSignals = document.getElementById("includeSignals").checked;
-  const ord = [...annotations].sort((a, b) => a.start - b.start);
-  let out = "";
-  let idx = 0;
-  for (const r of ord) {
-    if (idx < r.start) out += textEl.value.slice(idx, r.start);
-    if (r.kind === "PLOT") {
-      out += `[[${r.label}]]`;
-    } else if (includeSignals) {
-      out += `<<${r.label}>>`;
-    }
-    idx = r.end;
-  }
-  if (idx < textEl.value.length) out += textEl.value.slice(idx);
-  out = out
-    .replace(/[ \t]+/g, " ")
-    .replace(/\s*\n\s*/g, "\n")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
-  templateOut.textContent = out || "— ingen —";
+  const ord = [...annotations]
+    .filter((a) => a.kind === "PLOT" || (includeSignals && a.kind === "SIGNAL"))
+    .sort((a, b) => a.start - b.start);
+  const labels = ord.map((a) => `[${a.label}]`);
+  templateOut.textContent = labels.length ? labels.join(", ") : "— ingen —";
 };
 document.getElementById("btnCopyTemplate").onclick = () =>
   navigator.clipboard.writeText(templateOut.textContent || "");
